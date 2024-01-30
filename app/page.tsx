@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Lottie from "react-lottie";
 import styled from "styled-components";
 import bunnyCry from "./animations/bunnyCry.json";
@@ -8,6 +8,8 @@ import bunnyPlease from "./animations/bunnyPlease.json";
 import bunnyYes from "./animations/bunnyYes.json";
 import bunnyPunch from "./animations/bunnyPunch.json";
 import Button from "./components/Button";
+
+import { Howl } from "howler";
 
 const getRandomPosition = () => {
   if (typeof window !== 'undefined') {
@@ -24,6 +26,23 @@ const getRandomPosition = () => {
 }
 
 function Home() {
+  // creating background music
+  const backgroundMusic = new Howl({
+    src: ["song.mp3"], // Replace with your actual file path
+    loop: true,
+    volume: 0.5,
+  });
+
+  // Start playing the background music when the component mounts
+  useEffect(() => {
+    backgroundMusic.play();
+
+    // Cleanup function to stop the background music when the component unmounts
+    return () => {
+      backgroundMusic.stop();
+    };
+  }, []); // Empty dependency array ensures the effect runs once on mount
+
   const bunnyCryOptions = {
     loop: true,
     autoplay: true,
